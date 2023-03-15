@@ -1,10 +1,12 @@
 # LWC Zero to Hero
 
-<br>
+
 
 ## Lightning framework
 
-Lightning component framework is a two way framework for developing single bridge applications for mobile and desktop devices. To create the lighting pages, we have two programming models.
+Lightning component framework is a two way framework for developing single bridge applications for mobile and desktop devices.
+
+To create the lighting pages, we have two programming models:
 
 1. **Aura Component Model**
 
@@ -12,11 +14,17 @@ Lightning component framework is a two way framework for developing single bridg
 
 
 
+### **I. Aura Component Model**
+
 Aura components use the Aura framework and lighting web components use the standard web components framework. In 2014, browsers and web standards were only handling minimal tasks such as events, standard elements, and rendering. The frameworks (such as Aura) were responsible for most of the work. As a result, the frameworks took on more responsibility, but websites were not as performance-efficient as they could be.
 
 As the web evolved into a new era in 2019, JavaScript introduced new features that reduced the need for frameworks and shifted more load onto the browser. This led to many cool features being introduced directly into the browser, allowing developers to use them without relying on frameworks.
 
 The cool features include the ability to create components and templates that can run directly in the browser, eliminating the need for separate frameworks. The introduction of the Shadow DOM, module system, and newer versions of JavaScript (such as ECMAScript 6, 7, 8, 9, 10, and 11) also added more functionality. The browser can now handle custom events, standard rendering elements, and leave specialized tasks to the frameworks, such as data services and UI components.
+
+
+
+### <strong>II. Lightning Web Components</strong>
 
 When Salesforce saw the transformation that occurred from 2014 to 2019, they introduced the Lightning Web Component framework. This framework was built on the latest web standards and followed the same concept as the modern web. The Lightning Web Components framework only takes care of security, Lightning Data Services, and base Lightning components, leaving the rest to the browser. The framework also supports the latest JavaScript features, including modules, events, standard elements, and Shadow DOMs.
 
@@ -28,17 +36,15 @@ If someone asks you about the difference between Aura and LWC in an interview, y
 
 
 
-**Now what is the LWC?**
+### **What are the benefits of LWC over Aura? **
 
-The Lightning Component is a programming model for building Lightning components that utilizes web standards concepts like Shadow DOM, rendering, custom events, and ES6 arrow functions.
+The Lightning Component is a programming model for building Lightning components that utilizes web standards concepts like Shadow DOM, rendering, custom events, or ES6 arrow functions. Lightning Web Components only take care of a small piece of code, including security, Lightning Data Service, and base Lightning components, while the rest is taken care of by the browser. It's a lightweight framework, not as heavy as Aura, and because it handles less functionality, the performance is higher. Additionally, you don't need to learn a different framework to develop an application in Salesforce, as Lightning Web Components use plain JavaScript.
 
-**What are the benefits of LWC over Aura? **
+Now, one other question is whether Aura will still be in use? Yes, many people use it and you can embed your lightning web component inside the aura component, but you can't do other other way around.
 
-Lightning Web Components only take care of a small piece of code, including security, Lightning Data Service, and base Lightning components, while the rest is taken care of by the browser. It's a lightweight framework and not as heavy as Aura, and because it handles less, the performance is higher. Additionally, you don't need to learn a different framework to develop an application in Salesforce, as Lightning Web Components use plain JavaScript.
+LWC introduced better testing using the Jest framework. You can write test cases for your component to catch bugs in the early stages. In addition, LWC has better security features. The JavaScript strict mode is enforced, meaning you can't write global variables and your variables will not be hoisted. LWC also restricts access to Salesforce global variables.
 
-The question is whether Aura will still be in use? Yes, many people use it and you can embed your lightning web component inside the aura component, but you can't do other other way around.
-
-LWC introduced better testing using the Jest framework. You can write test cases for your component to catch bugs in the early stages. In addition, LWC has better security features. The JavaScript strict mode is enforced, meaning you can't write global variables and your variables will not be hoisted. LWC also restricts access to Salesforce global variables. From an interview perspective, it's important to remember that LWC provides better security, better testing, and the ability to interoperate with Aura components.
+From an interview perspective, it's important to remember that LWC provides better security, better testing, and the ability to interoperate with Aura components.
 
 Lightning Experience is a modern and intuitive user interface designed for Salesforce. It provides a personalized and seamless experience for users to navigate and interact with their data. The interface is optimized for mobile devices, making it easy to use Salesforce on the go. Lightning Experience also offers powerful analytics and AI-driven insights to help users make informed decisions. In contrast, the classic view is the older and more traditional interface for Salesforce, which may not have the same level of customization and features as Lightning Experience.
 
@@ -75,12 +81,13 @@ Overall, the LWC component folder structure is simple and easy to understand, wi
 ```javascript
 // sampleComponent.js
 
+import { LightningElement } from 'lwc';
 export default class Sample extends LightningElement {
     name = "Nury"
 }
 ```
 
-```markup
+```html
 <!-- sampleComponent.html-->
 
 <template>
@@ -95,7 +102,7 @@ export default class Sample extends LightningElement {
 </template>
 ```
 
-```markup
+```html
 <!-- sampleComponent.js-meta.xml-->
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -123,6 +130,7 @@ Naming convention examples:
 Each component in LWC is a Javascript class. And classes contain two things the properties and the methods. Properties are the fields that store value inside the class.
 
 ```javascript
+import { LightningElement } from 'lwc';
 export default class Person extends LightningElement {
     name = "Nury"
     gender = "Male"
@@ -154,10 +162,11 @@ A few things are very important to keep in mind while using the data binding:
 To achieve the two way data binding, we need methods. Whenever user change something on the screen(HTML) my property should also update in the JavaScript. That is two way data binding: binding from HTML to JS and JS to HTML as well.
 
 ```javascript
-export default class Lesson01 extends LightningElement {
-    name="Nury"
-    location="Kirkland"
-    title="Software Engineer"
+import { LightningElement } from 'lwc';
+export default class App extends LightningElement {
+    name = "Nury"
+    location = "Kirkland"
+    title = "Software Engineer"
 
     titleHandler(event){
         this.title = event.target.value
@@ -165,7 +174,7 @@ export default class Lesson01 extends LightningElement {
 }
 ```
 
-```markup
+```html
 <template>
     <lightning-card title="Two way Binding Sample">
         <div class="slds-var-m-around_medium">
@@ -222,7 +231,7 @@ export default class App extends LightningElement {
 }
 ```
 
-```markup
+```html
 <template>
 	<lightning-card title="Two way Binding Sample">
 		<div class="slds-var-m-around_medium">
@@ -243,6 +252,7 @@ There is also a workaround to this challenge without using @track decorator. We 
 
 
 ```javascript
+import { LightningElement } from 'lwc';
 export default class App extends LightningElement {
     personalInfo = {
         location: {
@@ -252,9 +262,10 @@ export default class App extends LightningElement {
     }
 
     cityHandler(event) {
-        this.personalInfo = {...this.personalInfo, 
-        																					location: {born: "Dasoguz",lives: event.target.value}
-        																				};
+        this.personalInfo = {
+                                ...this.personalInfo,
+                                location: {born: "Dasoguz",lives: event.target.value}
+                            };
     }
 }
 ```
@@ -274,8 +285,8 @@ You can treat getter function as same as JavaScript properties in Lightning web 
 
 
 ```javascript
-export default class Lesson02 extends LightningElement {
-    userList = ["Jim","John","Mike"]
+export default class SampleApp extends LightningElement {
+    userList = ["Jim", "John", "Mike"]
 
     // If I need to update first user in HTML if it's value changes 
     // this.firstUser = this.userList[0]; is not the ideal solution
@@ -295,7 +306,7 @@ export default class Lesson02 extends LightningElement {
 }
 ```
 
-```markup
+```html
 <template>
     <lightning-card title="Getters Sample">
         <div class="slds-var-m-around_medium">
@@ -320,12 +331,13 @@ export default class Lesson02 extends LightningElement {
 
 A directive is a special attribute that adds dynamic behavior to an HTML template. You can use certain directives on a root <code>&lt;</code>`template`<code>&gt;</code> tag, a nested <code>&lt;</code>`template`<code>&gt;</code> tag, or an HTML element such as a `&lt;p&gt;` tag. Some directives are supported for use with different tags.
 
-`if:true|false={expression}` conditionally renders DOM elements in a template, calling the expression for each of `if:true` and `if:false`. In cases where you chain `if:true` and `if:false` directives, they are not as performant nor as lightweight as the `lwc:if`, `lwc:elseif`, and `lwc:else` directives.
+<code>if:true|false={expression}</code> conditionally renders DOM elements in a template, calling the expression for each of <code>if:true</code> and <code>if:false</code>. In cases where you chain <code>if:true</code> and <code>if:false</code> directives, they are not as performant nor as lightweight as the <code>lwc:if</code>, <code>lwc:elseif</code>, and <code>lwc:else</code> directives.
 
 
 
 ```javascript
-export default class Lesson03 extends LightningElement {
+import { LightningElement } from 'lwc';
+export default class App extends LightningElement {
     isVisible = false;
 
     handleClick(){
@@ -338,12 +350,12 @@ export default class Lesson03 extends LightningElement {
     }
 
     get validateInput(){
-        return this.secretPassword === 'sim sim';
+        return this.secretPassword === 'mellon';
     }
 }
 ```
 
-```markup
+```html
 <template>
     <lightning-card title="Conditional Rendering Sample">
         <div class="slds-var-m-around_medium">
@@ -363,7 +375,7 @@ export default class Lesson03 extends LightningElement {
             </template>
 
             <lightning-input type="text" 
-            																	label="Type 'sim sim' to see the secret phrase" 
+            																	label="Type secret elvish word to see the secret phrase" 
             																	onkeyup={dataHandler}> 
             </lightning-input>
             <template if:true={validateInput}>
@@ -398,7 +410,7 @@ This example iterates over an array called `contacts`, which is defined in the c
 
 
 
-```markup
+```html
 <!-- helloForEach.html -->
 <template>
     <lightning-card title="HelloForEach" icon-name="custom:custom14">
@@ -460,7 +472,8 @@ If the item is first in the list, the <code>&lt;</code>`div`<code>&gt;</code> ta
 
 
 
-```markup
+```html
+<!-- helloIterator.html -->
 <template>
     <lightning-card title="HelloIterator" icon-name="custom:custom14">
         <ul class="slds-m-around_medium">
@@ -477,6 +490,8 @@ If the item is first in the list, the <code>&lt;</code>`div`<code>&gt;</code> ta
 ```
 
 ```css
+<!-- helloIterator.css -->
+
 .list-first {
     border-top: 1px solid black;
     padding-top: 5px;
@@ -500,7 +515,7 @@ Let’s look at a simple app composed of components. The markup is contrived bec
 
 
 
-```markup
+```html
 <!-- todoApp.html -->
 <template>
     <c-todo-wrapper>
@@ -512,7 +527,7 @@ Let’s look at a simple app composed of components. The markup is contrived bec
 
 
 
-**Owner**
+### **Owner**
 
 The owner is the component that owns the template. In this example, the owner is the `c-todo-app` component. The owner controls all the composed components that it contains. The owner can:
 
@@ -522,7 +537,9 @@ The owner is the component that owns the template. In this example, the owner is
 
 - Listen for any events fired by the composed components
 
-**Container**
+
+
+### **Container**
 
 A container contains other components but itself is contained within the owner component. In this example, `c-todo-wrapper` is a container. A container is less powerful than the owner. A container can:
 
@@ -532,13 +549,15 @@ A container contains other components but itself is contained within the owner c
 
 - Listen for some, but not necessarily all, events bubbled up by components that it contains.
 
-**Parent and child**
+
+
+### **Parent and child**
 
 When a component contains another component, which, in turn, can contain other components, we have a containment hierarchy. In the documentation, we sometimes talk about parent and child components. A parent component contains a child component. A parent component can be the owner or a container.
 
 
 
-<strong>Note</strong>: You can keep isExposed property of the child component false in xml file.
+<strong>Note</strong>: You can keep <strong>isExposed </strong>property of the child component <strong>false </strong>in xml file.
 
 
 
@@ -554,7 +573,7 @@ export default class TodoItem extends LightningElement {
 }
 ```
 
-```markup
+```html
 <!-- todoApp.html -->
 <template>
     <c-todo-item item-name="Milk"></c-todo-item>
@@ -568,16 +587,13 @@ Property names in JavaScript are in camel case while HTML attribute names are in
 
 
 
-<strong>Note</strong>: This example uses static values of <code>Milk</code> and <code>Bread</code>, but a real-world component would typically use a <code>for:each</code> iteration over a collection computed in the owner’s JavaScript file, <code>todoApp</code><code>.</code><code>js</code>. For example:
+<strong>Note</strong>: This example uses static values of <code>Milk</code> and <code>Bread</code>, but a real-world component would typically use a <code>for:each</code> iteration over a collection computed in the owner’s JavaScript file, <code>todoApp</code><code>.</code><code>js</code>.
 
 
 
 
 
 ## Shadow DOM
-
-
-
 
 
 

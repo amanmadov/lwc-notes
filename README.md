@@ -1,5 +1,7 @@
 # LWC Zero to Hero
 
+<br>
+
 ## Lightning framework
 
 Lightning component framework is a two way framework for developing single bridge applications for mobile and desktop devices. To create the lighting pages, we have two programming models.
@@ -583,6 +585,3 @@ Property names in JavaScript are in camel case while HTML attribute names are in
 
 
 
----
-
-salesforce, lwc

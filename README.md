@@ -646,8 +646,6 @@ Let’s look at how to work with the shadow tree in each of these areas.
 
 To access elements rendered by a component with standard DOM APIs, use <code>querySelector</code><code>()</code> with <code>this</code><code>.</code>`template` or <code>this</code>. To locate elements in the DOM without a selector, use refs.
 
-## querySelector()
-
 The standard way to access elements in the DOM is to use <code>querySelector</code><code>()</code>. To locate shadow DOM nodes, use <code>querySelector</code><code>()</code> or <code>querySelectorAll</code><code>()</code> on <code>this</code><code>.</code>`template`. For light DOM nodes, use one of those methods on <code>this</code>.
 
 ```javascript

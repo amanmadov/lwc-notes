@@ -223,7 +223,7 @@ export default class App extends LightningElement {
         }
     }
 
-				// this works because of the @track decorator
+    // this works because of the @track decorator
     cityHandler(event) {
         this.personalInfo.location.lives = event.target.value;
     }
@@ -261,9 +261,7 @@ export default class App extends LightningElement {
     }
 
     cityHandler(event) {
-        this.personalInfo = {...this.personalInfo, 
-        																					location: {born: "Dasoguz",lives: event.target.value}
-        																				};
+        this.personalInfo = {...this.personalInfo, location: {born: "Dasoguz",lives: event.target.value}};
     }
 }
 ```
@@ -287,8 +285,6 @@ export default class SampleApp extends LightningElement {
     userList = ["Jim", "John", "Mike"]
 
     // If I need to update first user in HTML (when it's value changes)
-    
-      
     // this.firstUser = this.userList[0]; is not the ideal solution
     // instead get method below will update the UI and rerender it 
     // every time the first user changes
@@ -374,9 +370,7 @@ export default class App extends LightningElement {
                 <div>Click Button to Login</div>
             </template>
 
-            <lightning-input type="text" 
-            																	label="Type secret elvish word to see the secret phrase" 
-            																	onkeyup={dataHandler}> 
+            <lightning-input type="text" label="Type secret elvish word to see the secret phrase" onkeyup={dataHandler}> 
             </lightning-input>
             <template if:true={validateInput}>
                 <div>Javascript is awesome. You better start learning it.</div>
@@ -775,7 +769,7 @@ There are several ways of styling LWC components:
 /* example.css */
 
 .testClass {
-		color:red;
+	color:red;
  	font-size:20px;
 }
 ```
@@ -808,12 +802,7 @@ Base components provide a `class` attribute so that you can add an SLDS utility 
 
 ```html
 <template>
-    <lightning-button 
-    												variant="brand" 
-    												label="Cancel" 
-    												title="cancel" 
-    												onclick={handleCancel}
-    												class="slds-m-left_medium">
+    <lightning-button variant="brand" label="Cancel" title="cancel" onclick={handleCancel} class="slds-m-left_medium">
     </lightning-button>
 </template>
 ```
@@ -834,9 +823,9 @@ Use CSS variables in a Lightning web component to access Lightning Design System
 /* example.css */
 
 .testClass {
-		color:var(--lwc-brandAccessible);
-  background:var(--lwc-colorBackgroundAlt);
-  margin-right: var(--lwc-spacingSmall);
+	color:var(--lwc-brandAccessible);
+  	background:var(--lwc-colorBackgroundAlt);
+  	margin-right: var(--lwc-spacingSmall);
 }
 ```
 
@@ -901,11 +890,7 @@ Lightning Web Component doesn’t allow computed expressions in html markup but 
 <template>
     <!--className is defined as getter in js file-->
     <div class={className}>Dynamic Style</div>
-    <lightning-input type="checkbox" 
-    						label="Change Style"
-    						name="input1" 
-    						value={changeStyle} 
-    						onchange={handleChange}>
+    <lightning-input type="checkbox" label="Change Style" name="input1" value={changeStyle} onchange={handleChange}>
     </lightning-input>
 </template>
 ```
@@ -916,14 +901,14 @@ Lightning Web Component doesn’t allow computed expressions in html markup but 
 import { LightningElement, track } from 'lwc';
 
 export default class App extends LightningElement {
-				@track changeStyle = false;
-				get className(){
-						//if changeStle is true, getter will return class1 else class2
-								return this.changeStyle ? 'class1': 'class2';
-				}
-				handleChange(event){
-								this.changeStyle = event.target.checked;
-				}
+	@track changeStyle = false;
+	get className(){
+		//if changeStle is true, getter will return class1 else class2
+		return this.changeStyle ? 'class1': 'class2';
+	}
+	handleChange(event){
+		this.changeStyle = event.target.checked;
+	}
 }
 ```
 

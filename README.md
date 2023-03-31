@@ -213,7 +213,6 @@ However, the framework doesn't observe mutations made to complex objects, such a
 
 ```javascript
 import { LightningElement, track } from 'lwc';
-
 export default class App extends LightningElement {
     @track
     personalInfo = {
@@ -223,7 +222,7 @@ export default class App extends LightningElement {
         }
     }
 
-    // this works because of the @track decorator
+				// this works because of the @track decorator
     cityHandler(event) {
         this.personalInfo.location.lives = event.target.value;
     }
@@ -261,7 +260,9 @@ export default class App extends LightningElement {
     }
 
     cityHandler(event) {
-        this.personalInfo = {...this.personalInfo, location: {born: "Dasoguz",lives: event.target.value}};
+        this.personalInfo = {...this.personalInfo, 
+        																					location: {born: "Dasoguz",lives: event.target.value}
+        																				};
     }
 }
 ```
@@ -281,10 +282,13 @@ You can treat getter function as same as JavaScript properties in Lightning web 
 
 
 ```javascript
+import { LightningElement } from 'lwc';
 export default class SampleApp extends LightningElement {
     userList = ["Jim", "John", "Mike"]
 
     // If I need to update first user in HTML (when it's value changes)
+    
+      
     // this.firstUser = this.userList[0]; is not the ideal solution
     // instead get method below will update the UI and rerender it 
     // every time the first user changes
@@ -370,7 +374,9 @@ export default class App extends LightningElement {
                 <div>Click Button to Login</div>
             </template>
 
-            <lightning-input type="text" label="Type secret elvish word to see the secret phrase" onkeyup={dataHandler}> 
+            <lightning-input type="text" 
+            																	label="Type secret elvish word to see the secret phrase" 
+            																	onkeyup={dataHandler}> 
             </lightning-input>
             <template if:true={validateInput}>
                 <div>Javascript is awesome. You better start learning it.</div>
@@ -422,7 +428,6 @@ This example iterates over an array called `contacts`, which is defined in the c
 ```javascript
 // helloForEach.js
 import { LightningElement } from 'lwc';
-
 export default class HelloForEach extends LightningElement {
     contacts = [
         {
@@ -484,13 +489,11 @@ If the item is first in the list, the <code>&lt;</code>`div`<code>&gt;</code> ta
 ```
 
 ```css
-<!-- helloIterator.css -->
-
+/* helloIterator.css */
 .list-first {
     border-top: 1px solid black;
     padding-top: 5px;
 }
-
 .list-last {
     border-bottom: 1px solid black;
     padding-bottom: 5px;
@@ -658,7 +661,7 @@ this.querySelector('div');
 
 
 
-<strong>Note</strong>: You can also use <code>element</code><code>.</code><code>template</code><code>.</code><code>querySelector</code>.
+<strong>Note</strong>: You can also use <code>element</code>`.`<code>template</code>`.`<code>querySelector</code>.
 
 
 
@@ -685,7 +688,6 @@ Use these methods to look for the elements that your component rendered.
 ```javascript
 // example.js
 import { LightningElement } from 'lwc';
-
 export default class Example extends LightningElement {
     renderedCallback() {
         this.template.querySelector('div'); // <div>First</div>
@@ -719,7 +721,6 @@ If a call to <code>appendChild</code><code>()</code> manipulates the DOM, stylin
 ```javascript
 // example.js
 import { LightningElement } from 'lwc';
-
 export default class Example extends LightningElement {
         const div = this.template.querySelector('.testClass');
         div.innerHTML = '<p>Hello World.</p>'
@@ -765,16 +766,14 @@ There are several ways of styling LWC components:
 
 ```css
 /* example.css */
-
 .testClass {
-	color:red;
+		color:red;
  	font-size:20px;
 }
 ```
 
 ```html
 <!-- example.html-->
-
 <template>
   <div class="testClass">Test content</div>
 </template>
@@ -800,7 +799,12 @@ Base components provide a `class` attribute so that you can add an SLDS utility 
 
 ```html
 <template>
-    <lightning-button variant="brand" label="Cancel" title="cancel" onclick={handleCancel} class="slds-m-left_medium">
+    <lightning-button 
+    												variant="brand" 
+    												label="Cancel" 
+    												title="cancel" 
+    												onclick={handleCancel}
+    												class="slds-m-left_medium">
     </lightning-button>
 </template>
 ```
@@ -819,17 +823,15 @@ Use CSS variables in a Lightning web component to access Lightning Design System
 
 ```css
 /* example.css */
-
 .testClass {
-	color:var(--lwc-brandAccessible);
-  	background:var(--lwc-colorBackgroundAlt);
-  	margin-right: var(--lwc-spacingSmall);
+		color:var(--lwc-brandAccessible);
+  background:var(--lwc-colorBackgroundAlt);
+  margin-right: var(--lwc-spacingSmall);
 }
 ```
 
 ```html
 <!-- example.html-->
-
 <template>
   <div class="testClass">Test content</div>
 </template>
@@ -839,7 +841,25 @@ Use CSS variables in a Lightning web component to access Lightning Design System
 
 **IV. Using Shared CSS in LWC **
 
-To create a shared CSS file all we need to do is create a LWC component without html and js file. Component needs to have only css and xml config file. Then we can import this css file across our LWC components css files.
+Create a consistent look and feel for Lightning web components using a common CSS module. Define styles in the CSS module, and import the module into the components that you want to share styles.
+
+You can import one or more CSS modules. The imported style rules are applied to the template just like non-imported style rules. Lightning Web Components supports the [CSS cascade algorithm](<https://developer.mozilla.org/en-US/docs/Web/CSS/Cascade>).
+
+Create a component that contains a CSS file and a configuration file. The folder and filenames must be identical. This component is your CSS module.
+
+```css
+/* myComponent.css */
+
+/* Syntax */
+@import 'namespace/moduleName';
+
+/* Example */
+@import 'c/cssLibrary';
+
+/* Note: Lightning web components can access modules only from the c and lightning namespaces
+under Lightning Locker. If Lightning Web Security is enabled, Lightning web components 
+can access modules from other namespaces. */
+```
 
 
 
@@ -884,29 +904,30 @@ Lightning Web Component doesn’t allow computed expressions in html markup but 
 
 ```html
 <!-- test.html-->
-
 <template>
     <!--className is defined as getter in js file-->
     <div class={className}>Dynamic Style</div>
-    <lightning-input type="checkbox" label="Change Style" name="input1" value={changeStyle} onchange={handleChange}>
+    <lightning-input type="checkbox" 
+    						label="Change Style"
+    						name="input1" 
+    						value={changeStyle} 
+    						onchange={handleChange}>
     </lightning-input>
 </template>
 ```
 
 ```javascript
 // test.js
-
 import { LightningElement, track } from 'lwc';
-
 export default class App extends LightningElement {
-	@track changeStyle = false;
-	get className(){
-		//if changeStle is true, getter will return class1 else class2
-		return this.changeStyle ? 'class1': 'class2';
-	}
-	handleChange(event){
-		this.changeStyle = event.target.checked;
-	}
+				@track changeStyle = false;
+				get className(){
+						//if changeStle is true, getter will return class1 else class2
+								return this.changeStyle ? 'class1': 'class2';
+				}
+				handleChange(event){
+								this.changeStyle = event.target.checked;
+				}
 }
 ```
 
@@ -944,7 +965,6 @@ This is a rare scenario but we may need to update salesforce base components. In
 
 ```javascript
 import { LightningElement } from 'lwc';
-
 export default class ShadowDomStyling extends LightningElement {
     isLoaded = false
     renderedCallback(){
@@ -959,6 +979,720 @@ export default class ShadowDomStyling extends LightningElement {
     }
 }
 ```
+
+
+
+
+
+## Component Lifecycle Hooks
+
+Lightning web components have a lifecycle managed by the framework. The framework creates components, inserts them into the DOM, renders them, and removes them from the DOM. It also monitors components for property changes.
+
+A lifecycle hook is a JavaScript callback method triggered at a specific phase of a component instance’s lifecycle. Lifecycle hooks are used to handle the lifecycle of components. Here are the phases and methods called on that phase:
+
+**I. Mounting Phase**
+
+- **Constructor**: The constructor() fires when a component instance is created.
+
+- **ConnectedCallback**: Fires when a component is inserted into the DOM.
+
+- **Render**
+
+- **RenderedCallback**: Fires when a component is rendered on the DOM
+
+**II. Unmounting Phase**
+
+- **DisconnectedCallback**: Fires when a component is removed from the DOM.
+
+**III. Error Phase**
+
+- **ErrorCallback**: Fires in case of any error during a lifecycle hook or event
+
+
+
+
+
+**I. Lifecycle Hooks in Mounting Phase**
+
+**constructor()**
+
+- Called when the component is created.
+
+- This hook flows from parent to child.
+
+- You can’t access child elements in the component body because they don’t exist yet.
+
+- Properties are not passed yet, either.
+
+- You can access the host element with this.template.
+
+- Do not add attributes to the host element in the constructor.
+
+
+
+```javascript
+import { LightningElement } from 'lwc';
+export default class LifeCycleParent extends LightningElement {
+    isChildVisible = false
+    constructor() {
+        super()
+        console.log("parent constructor called")
+    }
+}
+```
+
+
+
+**connectedCallback()**
+
+- Called when the element is inserted into a document.
+
+- This hook flows from parent to child.
+
+- You can’t access child elements in the component body because they don’t exist yet.
+
+- You can access the host element with this.template.
+
+- Use it to perform initialization tasks such as fetch data, set up caches or listen for events.
+
+- Do not use this to change the state of a component such as loading values or setting properties. Use getters and setters instead.
+
+
+
+```javascript
+import { LightningElement } from 'lwc';
+export default class LifeCycleParent extends LightningElement {
+    isChildVisible = false
+    constructor() {
+        super()
+        console.log("parent constructor called")
+    }
+    connectedCallback() {
+        console.log("parent connectedCallback called")
+    }
+}
+```
+
+
+
+**renderedCallback()**
+
+- Called after every render of the component.
+
+- It can fire more than once.
+
+- This hook flows from child to parent.
+
+- This lifecycle hook is specific to Lightning Web Components, it isn’t from the HTML custom elements specification.
+
+- A component is re-rendered when the value of property changes and that property is used either directly in a component template or indirectly in the getter of a property that is used in a template.
+
+- Do not use renderedCallback() to change the state of a component, such as loading values or setting properties. Use getters and setters instead.
+
+- Do not update a wire adapter configuration object property in renderedCallback(), as it can result in an infinite loop.
+
+- Don’t update a reactive property or field in renderedCallback(), as it can result in an infinite loop.
+
+
+
+```javascript
+import { LightningElement } from 'lwc';
+export default class LifeCycleParent extends LightningElement {
+    isChildVisible = false
+    constructor() {
+        super()
+        console.log("parent constructor called")
+    }
+    connectedCallback() {
+        console.log("parent connectedCallback called")
+    }
+    renderedCallback() {
+        console.log("parent renderedCallback called")
+    }
+
+    name
+    changeHandler(event) {
+        this.name = event.target.value
+    }
+}
+```
+
+
+
+**render()**
+
+- Call this method to update the UI.
+
+- It may be called before or after connectedCallback().
+
+- It’s rare to call render() in a component.
+
+- The main use case is to conditionally render a template. Define business logic to decide which template (HTML file) to use. The method must return a valid HTML template. For example, imagine that you have a component that can be rendered in two different ways but you don’t want to mix the HTML in one file. Create multiple HTML files in the component bundle. Import them both and add a condition in the render() method to return the correct template depending on the component’s state.
+
+
+
+```javascript
+// app.js
+import { LightningElement } from 'lwc';
+import signinTemplate from './signinTemplate.html'
+import signupTemplate from './signupTemplate.html'
+import renderTemplate from './app.html'
+export default class App extends LightningElement {
+    selectedBtn = ''
+    render(){ 
+        return this.selectedBtn === 'Signup' ? signupTemplate :
+                this.selectedBtn === 'Signin' ? signinTemplate:
+                renderTemplate
+    }
+
+    handleClick(event){ 
+        this.selectedBtn = event.target.label
+    }
+    submitHandler(event){ 
+        console.log(`${event.target.label} Successfully!!`)
+    }
+}
+```
+
+```html
+<!-- app.html-->
+<template>
+    <lightning-card title="Render Multiple Template" icon-name="custom:custom14">
+        <div class="slds-var-m-around_medium">
+            <h2 class="slds-text-heading_medium slds-var-m-bottom_medium">
+            	Choose your option
+            </h2>
+            <lightning-button
+            variant="destructive"
+            label="Signup"
+            title="Signup"
+            onclick={handleClick}
+            class="slds-m-left_x-small">
+            </lightning-button>
+            <lightning-button
+            variant="success"
+            label="Signin"
+            title="Signin"
+            onclick={handleClick}
+            class="slds-m-left_x-small">
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>
+```
+
+
+
+**II. Lifecycle Hooks in Unmounting Phase**
+
+**DisconnectedCallback()**
+
+- Fires when a component is removed from the DOM.
+
+- It flows from parent to child.
+
+- This lifecycle hook is specific to Lightning Web Components, it isn’t from the HTML custom elements specification.
+
+- Real use case of this hook can be removing an eventhandler or removing of a setTimeout function.
+
+
+
+```html
+<!-- parentComp.html-->
+<template>
+    <lightning-card title="Lifecycle hook parent card">
+        <div class="slds-var-m-around_medium">
+            <template if:true={isChildVisible}>
+                <lightning-button
+                    variant="brand"
+                    label="Remove Child" 
+                    title="Remove Child" 
+                    onclick={handleClick} 
+                    class="slds-m-left_x-small">
+                </lightning-button>
+            </template>
+            <template if:false={isChildVisible}>
+                <lightning-button
+                    variant="brand"
+                    label="Show Child" 
+                    title="Show Child" 
+                    onclick={handleClick} 
+                    class="slds-m-left_x-small">
+                </lightning-button>
+            </template>
+             <template if:true={isChildVisible}>
+                <c-childComp></c-childComp>
+             </template>
+        </div>
+    </lightning-card>
+</template>
+```
+
+```javascript
+// parentComp.js
+import { LightningElement } from 'lwc';
+export default class LifeCycleParent extends LightningElement {
+    isChildVisible = false
+    constructor(){ 
+        super()
+        console.log("parent constructor called")
+    }
+    connectedCallback(){ 
+        console.log("parent connectedCallback called")
+    }
+    renderedCallback(){ 
+        console.log("parent renderedCallback called")
+    }
+
+    handleClick(){ 
+        this.isChildVisible = !this.isChildVisible
+    }
+}
+```
+
+```javascript
+// childComp.js
+import { LightningElement } from 'lwc';
+export default class LifeCycleParent extends LightningElement {
+    
+    disconnectedCallback(){ 
+        alert("child disconnectedCallback called.")
+    }
+}
+```
+
+
+
+**III. Lifecycle Hooks in Error Phase**
+
+**errorCallback(error, stack)**
+
+- Called when a descendant component throws an error.
+
+- The error argument is a JavaScript native error object, and the stack argument is a string.
+
+- This lifecycle hook is specific to Lightning Web Components, it isn’t from the HTML custom elements specification.
+
+
+
+
+
+## Components Communication
+
+**I. Parent to Child Communication**
+
+**II. Child to Parent Communication**
+
+**III. Sibling Component Communication using PubSub**
+
+**IV. Communication across VF pages, Aura and LWC using LMS**
+
+
+
+
+
+### **I. Parent to Child Communication**
+
+**A) Passing Primitive Data Type**
+
+
+
+```html
+<!-- parentComp.html-->
+<template>
+    <c-child-comp
+        message="Hurray !! I got the data"
+        card-heading="Parent to Child primitive data communication"
+        number=20
+        is-valid>
+    </c-child-comp>
+</template>
+```
+
+```javascript
+// parentComp.js
+import { LightningElement } from 'lwc';
+export default class ParentComp extends LightningElement {
+  
+}
+```
+
+
+
+```html
+<!-- childComp.html-->
+<template>
+    <lightning-card title={cardHeading}>
+        <div class="slds-notify_alert slds-theme_error" role="alert">
+            {number} {message} {isValid}
+        </div>
+    </lightning-card>
+</template>
+```
+
+```javascript
+// childComp.js
+import { LightningElement, api } from 'lwc';
+export default class ChildComp extends LightningElement {
+    @api message
+    @api cardHeading
+    @api number
+    @api isValid
+}
+```
+
+
+
+**Note**: By default properties that are passed without any value will be true.
+
+
+
+**B) Passing Complex Data Type**
+
+
+
+```html
+<!-- parentComp.html-->
+<template>
+    <c-child-comp carousel-details={carouselData}></c-child-comp>
+</template>
+```
+
+```javascript
+// parentComp.js
+import { LightningElement } from 'lwc';
+export default class ParentComp extends LightningElement {
+    carouselData = [
+        {
+            src:"/assets/images/carousel/carousel-01.jpg",
+            header:"First Card",
+            description:"First Description"
+        },
+        {
+            src:"/assets/images/carousel/carousel-02.jpg",
+            header:"Second Card",
+            description:"Second Description"
+        },
+        {
+            src:"/assets/images/carousel/carousel-03.jpg",
+            header:"Third Card",
+            description:"Third Description"
+        }
+    ]
+}
+```
+
+
+
+```html
+<!-- childComp.html-->
+<template>
+    <lightning-card title="Parent to Child non-primitive data communication">
+        <div class="slds-var-m-around_medium">
+            <lightning-carousel disable-auto-scroll>
+                <template for:each={carouselDetails} for:item="item">
+                    <lightning-carousel-image
+                        key={item.header}
+                        src ={item.src}
+                        header ={item.header}
+                        description ={item.description}>
+                    </lightning-carousel-image>
+                </template>
+            </lightning-carousel>
+        </div>
+    </lightning-card>
+</template>
+```
+
+```javascript
+// childComp.js
+import { LightningElement, api } from 'lwc';
+export default class ChildComp extends LightningElement {
+    @api carouselDetails
+}
+```
+
+
+
+**C) Passing data using Action at Parent Component**
+
+
+
+```html
+<!-- parentComp.html-->
+<template>
+    <lightning-card title="Parent to Child communication on action">
+        <div class="slds-var-m-around_medium">
+            <lightning-input type="number"
+             	label="Enter percentage"
+             	onkeyup={changeHandler}
+             	value={percentage}>
+             </lightning-input>
+             <c-child-comp progress-value={percentage}></c-child-comp>
+        </div>
+    </lightning-card>
+</template>
+```
+
+```javascript
+// parentComp.js
+import { LightningElement } from 'lwc';
+export default class ParentComp extends LightningElement {
+    percentage = 10
+    changeHandler(event){
+        this.percentage = event.target.value
+    }
+}
+```
+
+
+
+```html
+<!-- childComp.html-->
+<template>
+    <lightning-progress-bar value={progressValue} size="large">
+    </lightning-progress-bar>
+</template>
+```
+
+```javascript
+// childComp.js
+import { LightningElement, api } from 'lwc';
+export default class ChildComp extends LightningElement {
+    @api progressValue
+}
+```
+
+
+
+**D) Calling Child Method from Parent Component**
+
+
+
+```html
+<!-- parentComp.html-->
+<template>
+    <lightning-button 
+      variant="brand" 
+      label="Reset Slider"
+      onclick={handleClick}>
+    </lightning-button>
+    <c-child-comp></c-child-comp>
+</template>
+```
+
+```javascript
+// parentComp.js
+import { LightningElement } from 'lwc';
+export default class ParentComp extends LightningElement {
+    handleClick(){
+        this.template.querySelector('c-child-comp').resetSlider()
+    }
+}
+```
+
+
+
+```html
+<!-- childComp.html-->
+<template>
+    <lightning-card title="Calling child method from parent">
+        <div class="slds-var-m-around_medium">
+            <lightning-slider label="Volume" value={val} onchange={changeHandler}>
+            </lightning-slider>
+        </div>
+    </lightning-card>
+</template>
+```
+
+```javascript
+// childComp.js
+import { LightningElement, api } from 'lwc';
+export default class ChildComp extends LightningElement {
+   val = 20
+   changeHandler(event){ 
+       this.val = event.target.value
+   }
+
+   @api resetSlider(){ 
+       this.val = 50
+   }
+}
+```
+
+
+
+
+
+### **II. Child to Parent Communication**
+
+**A) Child to Parent Communication Using Simple Even**t
+
+
+
+```html
+<!-- parentComp.html-->
+<template>
+    <lightning-card title="Child to parent communication">
+        <div class="slds-var-m-around_medium">
+            <lightning-button label="Show Modal" onclick={clickHandler}>
+            </lightning-button>
+            <template if:true={showModal}>
+                <c-child-comp onclose={closeHandler}></c-child-comp>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+```
+
+```javascript
+// parentComp.js
+import { LightningElement } from 'lwc';
+export default class ParentComp extends LightningElement {
+    showModal = false
+    clickHandler(){ 
+        this.showModal = true
+    }
+    closeHandler(){ 
+        this.showModal = false
+    }
+}
+```
+
+
+
+```html
+<!-- childComp.html-->
+<template>
+    <section role="dialog" tabindex="-1" 
+        class="slds-modal slds-fade-in-open slds-modal_small"
+        aria-labelledby="modal-heading-01" aria-modal="true" 
+        aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <h2 id="modal-heading-01" 
+                  class="slds-modal__title slds-hyphenate">
+                  Confirmation
+                </h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" 
+                id="modal-content-id-1">
+                <p>Successfully Created!!</p>
+            </div>
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" 
+                  onclick={closeHandler}>
+                  Ok
+                </button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+```
+
+```javascript
+// childComp.js
+import { LightningElement} from 'lwc';
+export default class ChildComp extends LightningElement {
+   closeHandler(){ 
+       const myEvent = new CustomEvent('close')
+       this.dispatchEvent(myEvent)
+   }
+}
+```
+
+
+
+
+
+**B) Child to Parent Communication Using Event Bubbling **
+
+
+
+```html
+<!-- parentComp.html-->
+<template>
+    <lightning-card title="Child to parent communication">
+        <div class="slds-var-m-around_medium" onclose={closeHandler}>
+            <lightning-button label="Show Modal" onclick={clickHandler}>
+            </lightning-button>
+            <template if:true={showModal}>
+                <c-child-comp onclose={closeHandler}></c-child-comp>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+```
+
+```javascript
+// parentComp.js
+import { LightningElement } from 'lwc';
+export default class ParentComp extends LightningElement {
+    showModal = false
+    msg
+    clickHandler(){ 
+        this.showModal = true
+    }
+    closeHandler(event){ 
+        this.msg = event.detail.msg
+        this.showModal = false
+    }
+}
+```
+
+
+
+```html
+<!-- childComp.html-->
+<template>
+    <section role="dialog" tabindex="-1" 
+        class="slds-modal slds-fade-in-open slds-modal_small"
+        aria-labelledby="modal-heading-01" aria-modal="true" 
+        aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <h2 id="modal-heading-01" 
+                  class="slds-modal__title slds-hyphenate">
+                  Confirmation
+                </h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" 
+                id="modal-content-id-1">
+                <p>Successfully Created!!</p>
+            </div>
+            <footer class="slds-modal__footer" onclick={footerHandler}>>
+                <button class="slds-button slds-button_brand" 
+                  onclick={closeHandler}>
+                  Ok
+                </button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+```
+
+```javascript
+// childComp.js
+import { LightningElement} from 'lwc';
+export default class ChildComp extends LightningElement {
+   closeHandler(){ 
+        const myEvent = new CustomEvent('close', { 
+            bubbles:true,
+            detail: { 
+                msg:"Modal Closed Successfully!!"
+            }
+        })
+        this.dispatchEvent(myEvent)
+    }
+
+    footerHandler(){ 
+        console.log("footerHandler called")
+    }
+}
+```
+
 
 
 
